@@ -16,7 +16,7 @@ func InitBoard(game *Game) {
 	// make columns
 	game.board = make([][]Token, 7)
 	// make rows
-	for i := 0; i < 6; i++ {
+	for i := 0; i <= 6; i++ {
 		game.board[i] = make([]Token, 0, 6)
 	}
 }
