@@ -14,10 +14,10 @@ const PlayerTwoToken Token = "2"
 
 func InitBoard(game *Game) {
 	// make columns
-	game.board = make([][]Token, 6) // 0-index will count as a column so its 7-column
+	game.board = make([][]Token, 7)
 	// make rows
 	for i := 0; i < 6; i++ {
-		game.board[i] = make([]Token, 0, 5) // 0-index will count as a row so its 6-row
+		game.board[i] = make([]Token, 0, 6)
 	}
 }
 
