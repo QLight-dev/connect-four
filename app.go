@@ -23,10 +23,13 @@ func InitBoard(game *Game) {
 
 func PlaceToken(game *Game, column int, token Token) error {
 	if column > 6 {
-		return fmt.Errorf("%v is out of bounds", column)
+		return fmt.Errorf("%v is out of bounds\n", column)
 	}
 	if column < 0 {
-		return fmt.Errorf("%v is out of bounds", column)
+		return fmt.Errorf("%v is out of bounds\n", column)
+	}
+	if len(game.board[column]) == 7 {
+		return fmt.Errorf("%v is full\n", column)
 	}
 	game.board[column] = append(game.board[column], token)
 	return nil
