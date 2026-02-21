@@ -20,7 +20,6 @@ func main() {
 		err = PlaceToken(&game, column, PlayerOneToken)
 		if err != nil {
 			fmt.Printf("error: %s", err)
-			return
 		}
 
 	}
