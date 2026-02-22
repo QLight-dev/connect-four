@@ -83,5 +83,44 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 		}
 	}
 	tokensInARow = 0
+
+	// row checking
+	// player 1
+	for i := range game.board {
+		if lastTokenPlacedRow >= len(game.board[i]) {
+			tokensInARow = 0
+			continue
+		}
+
+		if game.board[i][lastTokenPlacedRow] == PlayerOneToken {
+			tokensInARow++
+		} else {
+			tokensInARow = 0
+		}
+
+		if tokensInARow == 4 {
+			return true, PlayerOneToken
+		}
+	}
+	tokensInARow = 0
+
+	// player 2
+	for i := range game.board {
+		if lastTokenPlacedRow >= len(game.board[i]) {
+			tokensInARow = 0
+			continue
+		}
+
+		if game.board[i][lastTokenPlacedRow] == PlayerTwoToken {
+			tokensInARow++
+		} else {
+			tokensInARow = 0
+		}
+
+		if tokensInARow == 4 {
+			return true, PlayerTwoToken
+		}
+	}
+	tokensInARow = 0
 	return false, emptyToken
 }
