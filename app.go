@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Game struct {
 	board [][]Token
@@ -123,5 +125,9 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 		}
 	}
 	tokensInARow = 0
+
+	// diagnal checking
+	// TODO: add daignal checking using range column then range row (nested loop)
+
 	return false, emptyToken
 }
