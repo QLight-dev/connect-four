@@ -11,6 +11,7 @@ type Token string
 
 const PlayerOneToken Token = "1"
 const PlayerTwoToken Token = "2"
+const emptyToken Token = " "
 
 func InitBoard(game *Game) {
 	// make columns
@@ -40,7 +41,7 @@ func (game Game) PrintBoard() {
 	for row := 7; row >= 0; row-- {
 		for column := 0; column <= 7; column++ {
 			if column > len(game.board)-1 || row > len(game.board[column])-1 {
-				fmt.Print(" ")
+				fmt.Print(emptyToken)
 				continue
 			}
 			fmt.Print(game.board[column][row])
