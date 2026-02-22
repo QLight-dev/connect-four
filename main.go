@@ -17,7 +17,7 @@ func main() {
 		}
 		game.PrintBoard()
 
-		fmt.Print("Enter column: ")
+		fmt.Printf("[player %v] enter column: ", playerToken)
 		_, err := fmt.Scanln(&column)
 		if err != nil {
 			fmt.Printf("error: %s", err)
