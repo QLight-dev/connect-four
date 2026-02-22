@@ -53,3 +53,35 @@ func (game Game) PrintBoard() {
 	}
 	fmt.Print("\n")
 }
+
+func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool, Token) {
+	tokensInARow := 0
+
+	// column checking
+	// player 1
+	for _, row := range game.board[lastTokenPlacedCol] {
+		if row == PlayerOneToken {
+			tokensInARow++
+		} else {
+			tokensInARow = 0
+		}
+		if tokensInARow == 4 {
+			return true, PlayerOneToken
+		}
+	}
+	tokensInARow = 0
+
+	// player 2
+	for _, row := range game.board[lastTokenPlacedCol] {
+		if row == PlayerTwoToken {
+			tokensInARow++
+		} else {
+			tokensInARow = 0
+		}
+		if tokensInARow == 4 {
+			return true, PlayerTwoToken
+		}
+	}
+	tokensInARow = 0
+	return false, emptyToken
+}
