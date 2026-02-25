@@ -126,8 +126,30 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 	}
 	tokensInARow = 0
 
-	// diagnal checking
-	// TODO: add daignal checking using range column then range row (nested loop)
+	// diagonal checking
+
+	// find both root diagonals
+	// going left
+	var diagonalRootRow int
+	var diagonalRootCol int
+	columnsIterated := 0
+	i := lastTokenPlacedRow
+
+	for ; i == lastTokenPlacedRow || columnsIterated == lastTokenPlacedRow; i-- {
+		// prevent any out-of-board diagonal rows
+		if i == 0 {
+			diagonalRootRow = lastTokenPlacedRow - columnsIterated
+			break
+		}
+		columnsIterated++
+	}
+	diagonalRootRow = i
+
+	// needed for go to not give me errors
+	if diagonalRootCol == 1 {
+	}
+	if diagonalRootRow == 1 {
+	}
 
 	return false, emptyToken
 }
