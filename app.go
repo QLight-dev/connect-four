@@ -46,7 +46,7 @@ func (game Game) PrintBoard() {
 				fmt.Print(emptyToken)
 				continue
 			}
-			fmt.Print(game.board[column][row])
+			fmt.Print(game.board[column][row], " ")
 		}
 		fmt.Print("\n")
 	}
