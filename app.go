@@ -133,22 +133,42 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 	var diagonalRootRow int
 	var diagonalRootCol int
 	columnsIterated := 0
-	i := lastTokenPlacedRow
+	{
+		i := lastTokenPlacedRow
 
-	for ; i == lastTokenPlacedRow || columnsIterated == lastTokenPlacedRow; i-- {
-		// prevent any out-of-board diagonal rows
-		if i == 0 {
-			diagonalRootRow = lastTokenPlacedRow - columnsIterated
+		for ; i == lastTokenPlacedRow || columnsIterated == lastTokenPlacedRow; i-- {
+			// prevent any out-of-board diagonal rows
+			if i == 0 {
+				diagonalRootRow = lastTokenPlacedRow - columnsIterated
+				break
+			}
+			columnsIterated++
+		}
+		diagonalRootRow = i
+	}
+	col := diagonalRootCol
+	row := diagonalRootRow
+	for ; ; col++ {
+		// prevents panics due to out of range accessing
+		if col >= len(game.board) || col < 0 || row > 5 {
 			break
 		}
-		columnsIterated++
-	}
-	diagonalRootRow = i
+		if row > len(game.board[col]) {
+			tokensInARow = 0
+			continue
+		}
+		if col == 0 {
+			continue
+		}
 
-	// needed for go to not give me errors
-	if diagonalRootCol == 1 {
-	}
-	if diagonalRootRow == 1 {
+		if game.board[col][row] == PlayerOneToken {
+			tokensInARow++
+		}
+
+		if tokensInARow == 4 {
+			return true, PlayerOneToken
+		}
+		row++
 	}
 
 	return false, emptyToken
