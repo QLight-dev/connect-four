@@ -1,3 +1,3 @@
-module github.com/QLight-dev/Connect-4
+module github.com/QLight-dev/connect-four
 
 go 1.25.7
