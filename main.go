@@ -17,13 +17,17 @@ func main() {
 		}
 		game.PrintBoard()
 
-		fmt.Printf("[player %v] enter column: ", playerToken)
-		_, err := fmt.Scanln(&column)
-		if err != nil {
-			fmt.Printf("error: %s", err)
+		for valid := false; !valid; {
+			fmt.Printf("[player %v] enter column: ", playerToken)
+			_, err := fmt.Scanln(&column)
+			if err != nil {
+				fmt.Printf("error: %s\n", err)
+			} else {
+				valid = true
+			}
 		}
 
-		err = PlaceToken(&game, column, playerToken)
+		err := PlaceToken(&game, column, playerToken)
 		if err != nil {
 			fmt.Printf("error: %s", err)
 		}
