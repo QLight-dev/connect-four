@@ -9,10 +9,18 @@ type Game struct {
 	turn  int
 }
 
+const (
+	esc         = "\u001b"
+	clearScreen = esc + "[2J"
+	resetColor  = esc + "[0m"
+	yellowText  = esc + "[33m"
+	redText = esc + "[31m"
+)
+
 type Token string
 
-const PlayerOneToken Token = "1"
-const PlayerTwoToken Token = "2"
+const PlayerOneToken Token = yellowText + "1" + resetColor
+const PlayerTwoToken Token = redText + "2" + resetColor
 const emptyToken Token = " "
 
 func InitBoard(game *Game) {
@@ -37,6 +45,8 @@ func PlaceToken(game *Game, column int, token Token) error {
 }
 
 func (game Game) PrintBoard() {
+	// to make terminal output clearer
+	fmt.Print(clearScreen + esc + "[H")
 	for row := 5; row >= 0; row-- {
 		for column := 0; column < 7; column++ {
 			if column > len(game.board)-1 || row > len(game.board[column])-1 {
