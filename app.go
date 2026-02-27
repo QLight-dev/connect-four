@@ -53,30 +53,18 @@ func (game Game) PrintBoard() {
 	fmt.Print("\n")
 }
 
-func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool, Token) {
+func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, playerToken Token) (bool, Token) {
 	tokensInARow := 0
 
 	// column checking
 	for _, row := range game.board[lastTokenPlacedCol] {
-		if row == PlayerOneToken {
+		if row == playerToken {
 			tokensInARow++
 		} else {
 			tokensInARow = 0
 		}
 		if tokensInARow == 4 {
-			return true, PlayerOneToken
-		}
-	}
-	tokensInARow = 0
-
-	for _, row := range game.board[lastTokenPlacedCol] {
-		if row == PlayerTwoToken {
-			tokensInARow++
-		} else {
-			tokensInARow = 0
-		}
-		if tokensInARow == 4 {
-			return true, PlayerTwoToken
+			return true, playerToken
 		}
 	}
 	tokensInARow = 0
@@ -87,29 +75,13 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 			tokensInARow = 0
 			continue
 		}
-		if game.board[i][lastTokenPlacedRow] == PlayerOneToken {
+		if game.board[i][lastTokenPlacedRow] == playerToken {
 			tokensInARow++
 		} else {
 			tokensInARow = 0
 		}
 		if tokensInARow == 4 {
-			return true, PlayerOneToken
-		}
-	}
-	tokensInARow = 0
-
-	for i := range game.board {
-		if lastTokenPlacedRow >= len(game.board[i]) {
-			tokensInARow = 0
-			continue
-		}
-		if game.board[i][lastTokenPlacedRow] == PlayerTwoToken {
-			tokensInARow++
-		} else {
-			tokensInARow = 0
-		}
-		if tokensInARow == 4 {
-			return true, PlayerTwoToken
+			return true, playerToken
 		}
 	}
 	tokensInARow = 0
@@ -146,35 +118,10 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 
 		if row >= len(game.board[col]) {
 			tokensInARow = 0
-		} else if game.board[col][row] == PlayerOneToken {
+		} else if game.board[col][row] == playerToken {
 			tokensInARow++
 			if tokensInARow == 4 {
-				return true, PlayerOneToken
-			}
-		} else {
-			tokensInARow = 0
-		}
-
-		col++
-		row++
-	}
-
-	// Player 2
-	col = diagonalRootCol
-	row = diagonalRootRow
-	tokensInARow = 0
-
-	for {
-		if col >= len(game.board) || row >= 6 {
-			break
-		}
-
-		if row >= len(game.board[col]) {
-			tokensInARow = 0
-		} else if game.board[col][row] == PlayerTwoToken {
-			tokensInARow++
-			if tokensInARow == 4 {
-				return true, PlayerTwoToken
+				return true, playerToken
 			}
 		} else {
 			tokensInARow = 0
@@ -213,35 +160,10 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 
 		if row >= len(game.board[col]) {
 			tokensInARow = 0
-		} else if game.board[col][row] == PlayerOneToken {
+		} else if game.board[col][row] == playerToken {
 			tokensInARow++
 			if tokensInARow == 4 {
-				return true, PlayerOneToken
-			}
-		} else {
-			tokensInARow = 0
-		}
-
-		col--
-		row++
-	}
-
-	// Player 2
-	col = diagonalRootCol
-	row = diagonalRootRow
-	tokensInARow = 0
-
-	for {
-		if col < 0 || row >= 6 {
-			break
-		}
-
-		if row >= len(game.board[col]) {
-			tokensInARow = 0
-		} else if game.board[col][row] == PlayerTwoToken {
-			tokensInARow++
-			if tokensInARow == 4 {
-				return true, PlayerTwoToken
+				return true, playerToken
 			}
 		} else {
 			tokensInARow = 0

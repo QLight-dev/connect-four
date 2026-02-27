@@ -31,7 +31,16 @@ func main() {
 		if err != nil {
 			fmt.Printf("error: %s", err)
 		}
-		if won, playerWon := game.CheckWin(column, len(game.board[column])-1); won {
+
+		// player 1 checking
+		if won, playerWon := game.CheckWin(column, len(game.board[column])-1, PlayerOneToken); won {
+			game.PrintBoard()
+			fmt.Printf("player %s won\n", playerWon)
+			break
+		}
+
+		// player 2 checking
+		if won, playerWon := game.CheckWin(column, len(game.board[column])-1, PlayerTwoToken); won {
 			game.PrintBoard()
 			fmt.Printf("player %s won\n", playerWon)
 			break
