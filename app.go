@@ -16,9 +16,7 @@ const PlayerTwoToken Token = "2"
 const emptyToken Token = " "
 
 func InitBoard(game *Game) {
-	// make columns
 	game.board = make([][]Token, 7)
-	// make rows
 	for i := 0; i <= 6; i++ {
 		game.board[i] = make([]Token, 0, 6)
 	}
@@ -39,7 +37,6 @@ func PlaceToken(game *Game, column int, token Token) error {
 }
 
 func (game Game) PrintBoard() {
-	// rows
 	for row := 5; row >= 0; row-- {
 		for column := 0; column < 7; column++ {
 			if column > len(game.board)-1 || row > len(game.board[column])-1 {
@@ -50,7 +47,6 @@ func (game Game) PrintBoard() {
 		}
 		fmt.Print("\n")
 	}
-	// visual numbers so players don't get confused
 	for i := 0; i < 7; i++ {
 		fmt.Print(i)
 	}
@@ -61,7 +57,6 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 	tokensInARow := 0
 
 	// column checking
-	// player 1
 	for _, row := range game.board[lastTokenPlacedCol] {
 		if row == PlayerOneToken {
 			tokensInARow++
@@ -74,7 +69,6 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 	}
 	tokensInARow = 0
 
-	// player 2
 	for _, row := range game.board[lastTokenPlacedCol] {
 		if row == PlayerTwoToken {
 			tokensInARow++
@@ -88,86 +82,172 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int) (bool,
 	tokensInARow = 0
 
 	// row checking
-	// player 1
 	for i := range game.board {
 		if lastTokenPlacedRow >= len(game.board[i]) {
 			tokensInARow = 0
 			continue
 		}
-
 		if game.board[i][lastTokenPlacedRow] == PlayerOneToken {
 			tokensInARow++
 		} else {
 			tokensInARow = 0
 		}
-
 		if tokensInARow == 4 {
 			return true, PlayerOneToken
 		}
 	}
 	tokensInARow = 0
 
-	// player 2
 	for i := range game.board {
 		if lastTokenPlacedRow >= len(game.board[i]) {
 			tokensInARow = 0
 			continue
 		}
-
 		if game.board[i][lastTokenPlacedRow] == PlayerTwoToken {
 			tokensInARow++
 		} else {
 			tokensInARow = 0
 		}
-
 		if tokensInARow == 4 {
 			return true, PlayerTwoToken
 		}
 	}
 	tokensInARow = 0
 
-	// diagonal checking
+	// =============================
+	// DIAGONAL 1 (bottom-left → top-right)
+	// =============================
 
-	// find both root diagonals
-	// going left
 	var diagonalRootRow int
 	var diagonalRootCol int
-	columnsIterated := 0
-	{
-		i := lastTokenPlacedRow
 
-		for ; i == lastTokenPlacedRow || columnsIterated == lastTokenPlacedRow; i-- {
-			// prevent any out-of-board diagonal rows
-			if i == 0 {
-				diagonalRootRow = lastTokenPlacedRow - columnsIterated
-				break
-			}
-			columnsIterated++
+	{
+		row := lastTokenPlacedRow
+		col := lastTokenPlacedCol
+
+		for row > 0 && col > 0 {
+			row--
+			col--
 		}
-		diagonalRootRow = i
+
+		diagonalRootRow = row
+		diagonalRootCol = col
 	}
+
+	// Player 1
 	col := diagonalRootCol
 	row := diagonalRootRow
-	for ; ; col++ {
-		// prevents panics due to out of range accessing
-		if col >= len(game.board) || col < 0 || row > 5 {
+	tokensInARow = 0
+
+	for {
+		if col >= len(game.board) || row >= 6 {
 			break
 		}
-		if row > len(game.board[col]) {
+
+		if row >= len(game.board[col]) {
 			tokensInARow = 0
-			continue
-		}
-		if col == 0 {
-			continue
-		}
-
-		if game.board[col][row] == PlayerOneToken {
+		} else if game.board[col][row] == PlayerOneToken {
 			tokensInARow++
+			if tokensInARow == 4 {
+				return true, PlayerOneToken
+			}
+		} else {
+			tokensInARow = 0
 		}
 
-		if tokensInARow == 4 {
-			return true, PlayerOneToken
+		col++
+		row++
+	}
+
+	// Player 2
+	col = diagonalRootCol
+	row = diagonalRootRow
+	tokensInARow = 0
+
+	for {
+		if col >= len(game.board) || row >= 6 {
+			break
 		}
+
+		if row >= len(game.board[col]) {
+			tokensInARow = 0
+		} else if game.board[col][row] == PlayerTwoToken {
+			tokensInARow++
+			if tokensInARow == 4 {
+				return true, PlayerTwoToken
+			}
+		} else {
+			tokensInARow = 0
+		}
+
+		col++
+		row++
+	}
+
+	// =============================
+	// DIAGONAL 2 (bottom-right → top-left)
+	// =============================
+
+	{
+		row := lastTokenPlacedRow
+		col := lastTokenPlacedCol
+
+		for row > 0 && col < len(game.board)-1 {
+			row--
+			col++
+		}
+
+		diagonalRootRow = row
+		diagonalRootCol = col
+	}
+
+	// Player 1
+	col = diagonalRootCol
+	row = diagonalRootRow
+	tokensInARow = 0
+
+	for {
+		if col < 0 || row >= 6 {
+			break
+		}
+
+		if row >= len(game.board[col]) {
+			tokensInARow = 0
+		} else if game.board[col][row] == PlayerOneToken {
+			tokensInARow++
+			if tokensInARow == 4 {
+				return true, PlayerOneToken
+			}
+		} else {
+			tokensInARow = 0
+		}
+
+		col--
+		row++
+	}
+
+	// Player 2
+	col = diagonalRootCol
+	row = diagonalRootRow
+	tokensInARow = 0
+
+	for {
+		if col < 0 || row >= 6 {
+			break
+		}
+
+		if row >= len(game.board[col]) {
+			tokensInARow = 0
+		} else if game.board[col][row] == PlayerTwoToken {
+			tokensInARow++
+			if tokensInARow == 4 {
+				return true, PlayerTwoToken
+			}
+		} else {
+			tokensInARow = 0
+		}
+
+		col--
 		row++
 	}
 
