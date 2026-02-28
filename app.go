@@ -37,7 +37,7 @@ func PlaceToken(game *Game, column int, token Token) error {
 	if column < 0 {
 		return fmt.Errorf("%v is out of bounds\n", column)
 	}
-	if len(game.board[column]) == 7 {
+	if len(game.board[column]) == 6 {
 		return fmt.Errorf("%v is full\n", column)
 	}
 	game.board[column] = append(game.board[column], token)
