@@ -6,22 +6,25 @@ import (
 
 type Game struct {
 	board [][]Token
-	turn  int
+	Player string
 }
 
+// ANSI colours
 const (
-	esc         = "\u001b"
-	clearScreen = esc + "[2J"
-	resetColor  = esc + "[0m"
-	yellowText  = esc + "[33m"
-	redText = esc + "[31m"
+	esc            = "\u001b"
+	clearScreen    = esc + "[2J"
+	ResetColor     = esc + "[0m"
+	YellowText     = esc + "[33m"
+	RedText        = esc + "[31m"
+	blackText      = esc + "[30m"
+	blueBackground = esc + "[48;2;0;0;80m"
 )
 
 type Token string
 
-const PlayerOneToken Token = yellowText + "1" + resetColor
-const PlayerTwoToken Token = redText + "2" + resetColor
-const emptyToken Token = " "
+const PlayerOneToken Token = YellowText + "⬤"
+const PlayerTwoToken Token = RedText + "⬤"
+const emptyToken Token = blackText + "⬤"
 
 func InitBoard(game *Game) {
 	game.board = make([][]Token, 7)
@@ -47,23 +50,34 @@ func PlaceToken(game *Game, column int, token Token) error {
 func (game Game) PrintBoard() {
 	// to make terminal output clearer
 	fmt.Print(clearScreen + esc + "[H")
+
 	for row := 5; row >= 0; row-- {
+		fmt.Print(blueBackground)
+		fmt.Print(" ")
 		for column := 0; column < 7; column++ {
 			if column > len(game.board)-1 || row > len(game.board[column])-1 {
 				fmt.Print(emptyToken)
+				fmt.Print(ResetColor)
+				fmt.Print(blueBackground)
+				fmt.Print(" ")
 				continue
 			}
 			fmt.Print(game.board[column][row])
+			fmt.Print(" ")
+			fmt.Print(ResetColor)
+			fmt.Print(blueBackground)
 		}
 		fmt.Print("\n")
 	}
+	fmt.Print(ResetColor)
+
 	for i := 0; i < 7; i++ {
 		fmt.Print(i)
 	}
 	fmt.Print("\n")
 }
 
-func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, playerToken Token) (bool, Token) {
+func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, playerToken Token) (bool, string) {
 	tokensInARow := 0
 
 	// column checking
@@ -74,7 +88,7 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, player
 			tokensInARow = 0
 		}
 		if tokensInARow == 4 {
-			return true, playerToken
+			return true, game.Player
 		}
 	}
 	tokensInARow = 0
@@ -91,7 +105,7 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, player
 			tokensInARow = 0
 		}
 		if tokensInARow == 4 {
-			return true, playerToken
+			return true, game.Player
 		}
 	}
 	tokensInARow = 0
@@ -131,7 +145,7 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, player
 		} else if game.board[col][row] == playerToken {
 			tokensInARow++
 			if tokensInARow == 4 {
-				return true, playerToken
+				return true, game.Player
 			}
 		} else {
 			tokensInARow = 0
@@ -173,7 +187,7 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, player
 		} else if game.board[col][row] == playerToken {
 			tokensInARow++
 			if tokensInARow == 4 {
-				return true, playerToken
+				return true, game.Player
 			}
 		} else {
 			tokensInARow = 0
@@ -183,5 +197,5 @@ func (game Game) CheckWin(lastTokenPlacedCol int, lastTokenPlacedRow int, player
 		row++
 	}
 
-	return false, emptyToken
+	return false, ""
 }
