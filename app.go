@@ -35,13 +35,13 @@ func InitBoard(game *Game) {
 
 func PlaceToken(game *Game, column int, token Token) error {
 	if column > 6 {
-		return fmt.Errorf("%v is out of bounds\n", column)
+		return fmt.Errorf("%v is out of bounds\n", column+1)
 	}
 	if column < 0 {
-		return fmt.Errorf("%v is out of bounds\n", column)
+		return fmt.Errorf("%v is out of bounds\n", column+1)
 	}
 	if len(game.board[column]) == 6 {
-		return fmt.Errorf("%v is full\n", column)
+		return fmt.Errorf("%v is full\n", column+1)
 	}
 	game.board[column] = append(game.board[column], token)
 	return nil
@@ -71,8 +71,9 @@ func (game Game) PrintBoard() {
 	}
 	fmt.Print(ResetColor)
 
-	for i := 0; i < 7; i++ {
-		fmt.Print(i)
+	fmt.Print(" ")
+	for i := 1; i <= 7; i++ {
+		fmt.Print(i, " ")
 	}
 	fmt.Print("\n")
 }

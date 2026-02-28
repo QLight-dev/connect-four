@@ -28,6 +28,7 @@ func main() {
 				fmt.Printf("error: %s\n", err)
 				continue
 			}
+			column--
 			err = PlaceToken(&game, column, playerToken)
 			if err != nil {
 				fmt.Printf("error: %s", err)
