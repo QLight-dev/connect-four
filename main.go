@@ -14,13 +14,15 @@ func main() {
 		var column int
 		if playerToken == PlayerOneToken {
 			playerToken = PlayerTwoToken
+			game.Player = RedText + "Red" + ResetColor
 		} else {
 			playerToken = PlayerOneToken
+			game.Player = YellowText + "Yellow" + ResetColor
 		}
 		game.PrintBoard()
 
 		for valid := false; !valid; {
-			fmt.Printf("[player %v] enter column: ", playerToken)
+			fmt.Printf("[%v] enter column: ", game.Player)
 			_, err := fmt.Scanln(&column)
 			if err != nil {
 				fmt.Printf("error: %s\n", err)
