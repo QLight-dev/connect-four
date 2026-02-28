@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	fmt.Println("Welcome to Connect 4!")
@@ -22,14 +24,14 @@ func main() {
 			_, err := fmt.Scanln(&column)
 			if err != nil {
 				fmt.Printf("error: %s\n", err)
-			} else {
-				valid = true
+				continue
 			}
-		}
-
-		err := PlaceToken(&game, column, playerToken)
-		if err != nil {
-			fmt.Printf("error: %s", err)
+			err = PlaceToken(&game, column, playerToken)
+			if err != nil {
+				fmt.Printf("error: %s", err)
+				continue
+			}
+			valid = true
 		}
 
 		// player 1 checking
