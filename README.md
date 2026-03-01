@@ -16,5 +16,8 @@ It has a clean, beautiful board complete with a working input and win detection 
 go install github.com/QLight-dev/connect-four
 connect-four
 ```
+## Inspiration
+This project was inspired by my half finished [tic-tac-toe project](https://github.com/QLight-dev/tic-tac-toe/tree/main) written in C++. It was unfinished but also uses ANSI escape codes to style the project. This project is simmilar but split into two files instead of one, uses slices instead of one variable for each cell, and overall just works.
 ## License
 MIT © Muhammed Uzair
+
