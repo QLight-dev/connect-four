@@ -10,7 +10,6 @@ It has a clean, beautiful board complete with a working input and win detection 
 ![Connect Four Demo](assets/demo.gif)
 
 ## Installation
-### Using ```go``` (Recommended)
 > [!NOTE]
 > requires ```go 1.25.7+```
 ```zsh
